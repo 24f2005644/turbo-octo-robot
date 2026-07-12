@@ -11,8 +11,14 @@ from openai import OpenAI
 # ---------------------------------------------------------------------------
 app = FastAPI(title="Semantic Search Top-K Ranking API")
 
-# Reads your key from an environment variable — never hard-code it in the file.
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+# AI Pipe is a proxy that speaks the exact same API "language" as OpenAI.
+# So we reuse the normal OpenAI Python client, we just redirect it to
+# AI Pipe's address and hand it your AIPIPE_TOKEN instead of a real
+# OpenAI key.
+client = OpenAI(
+    api_key=os.environ["AIPIPE_TOKEN"],
+    base_url="https://aipipe.org/openai/v1",
+)
 
 EMBEDDING_MODEL = "text-embedding-3-small"
 
